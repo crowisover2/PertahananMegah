@@ -8,3 +8,10 @@ Pertahanan Megah adalah game dimana dimainkan oleh dua player yang masing-masing
 Teknologi yang dipakai
 - TCP sebagai koneksi antar dua player
 - Google Play Service untuk Achievement dan Leaderbord
+
+Update 0.1
++ Shooter sudah bisa menembak
++ Perisai sudah bisa berlindung
+
+- Belum ada koneksi
+- Peluru belum bisa mengenali area
