@@ -5,6 +5,7 @@ using UnityEngine;
 public class tempBulletInfinity : MonoBehaviour {
 
 	public GameObject bullet;
+    public GameObject Shield;
 	public Transform SpawnPoint;
 	// Use this for initialization
 	void Start () {
@@ -21,5 +22,6 @@ public class tempBulletInfinity : MonoBehaviour {
 	public void GenerateBullet()
     {
         GameObject newBullet = Instantiate(bullet, SpawnPoint.position, Quaternion.identity);
+        newBullet.transform.parent = Shield.transform;
     }
 }

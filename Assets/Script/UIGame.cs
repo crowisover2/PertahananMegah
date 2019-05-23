@@ -17,7 +17,7 @@ public class UIGame : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         uiGame = this.GetComponent<UIGame>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
