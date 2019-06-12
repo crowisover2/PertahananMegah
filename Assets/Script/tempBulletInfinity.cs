@@ -7,10 +7,6 @@ public class tempBulletInfinity : MonoBehaviour {
 	public GameObject bullet;
     public GameObject Shield;
 	public Transform SpawnPoint;
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

@@ -13,21 +13,19 @@ public class UIGame : MonoBehaviour {
 
 	static public UIGame uiGame;
 	public GameObject Shield;
+    public bool nyala = false;
+    public Slider DT;
 	
 	// Use this for initialization
 	void Start () {
         uiGame = this.GetComponent<UIGame>();
+        
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
 	public void Shield_Active(){
-		Shield.active =true;
+		if(UIGame.uiGame.DT.value > 1)Shield.active = nyala =true;
 	}
 	public void Shield_Deactive(){
-		Shield.active = false;
+		Shield.active = nyala = false;
 	}
 }
