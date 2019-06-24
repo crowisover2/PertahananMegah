@@ -2,6 +2,7 @@
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Launcher : MonoBehaviourPunCallbacks {
     //Launcher
@@ -55,6 +56,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void Join_Room()
     {
         PhotonNetwork.JoinRoom(NamaRoom.text, null);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        print("Room Joined Success");
+        PhotonNetwork.LoadLevel(1);
     }
 
     public void Create_Room()
