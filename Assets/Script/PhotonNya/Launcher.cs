@@ -61,6 +61,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public override void OnJoinedRoom()
     {
         print("Room Joined Success");
+        PhotonNetwork.NickName = NamaPlayer.text;
         PhotonNetwork.LoadLevel(1);
     }
 

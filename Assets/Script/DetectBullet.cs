@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class DetectBullet : MonoBehaviour {
+public class DetectBullet : MonoBehaviourPun, IPunObservable {
     public GameObject Alpha, Beta;
+    public PhotonView photonView;
+    public Color ON, OFF;
 
+    public SpriteRenderer Shield_ON;
     // Use this for initialization
     void Start()
-    {
+    { 
         Alpha = GameObject.Find("Area_WithinRange");
         Beta = GameObject.Find("Area_OutsideRange");
+        this.transform.parent = Alpha.transform.parent;
+
+       // photonView.RPC("ALL_SHIELD_DOWN", RpcTarget.AllBuffered);
     }
 
     void Detect_Distance()
@@ -49,25 +56,63 @@ public class DetectBullet : MonoBehaviour {
 
     void FixedUpdate()
     {
-        Detect_Distance();
+        if (photonView.IsMine)
+        {
+            Detect_Distance();
+        }
+
+        if(gameObject.transform.position.z > 60) { Shield_ON.color = ON; }
+        else { Shield_ON.color = OFF; }
     }
 
     void OnTriggerEnter2D(Collider2D e)
     {
-        if (e.GetComponent<BulletWalks>().bulletEffect == BulletEffect.WithinRange)
+        if (photonView.IsMine && gameObject.transform.position.z > 60)
         {
-            UIGame.uiGame.DT.value += 3;
-            Destroy(e.gameObject);
+            try
+            {
+                if (e.GetComponent<BulletWalks>().bulletEffect == BulletEffect.WithinRange)
+                {
+                    UIGame.uiGame.DT.value += 3;
+                    Debug.Log("Within");
+                    e.GetComponent<BulletWalks>().photonView.RPC("DESTROY", RpcTarget.AllBuffered);
+                }
+                else if (e.GetComponent<BulletWalks>().bulletEffect == BulletEffect.OutsideRange)
+                {
+                    UIGame.uiGame.DT.value -= 2;
+                    Debug.Log("OutSIde");
+                    e.GetComponent<BulletWalks>().photonView.RPC("DESTROY", RpcTarget.AllBuffered);
+                }
+            }
+            catch
+            {
+
+            }
         }
-        else if (e.GetComponent<BulletWalks>().bulletEffect == BulletEffect.OutsideRange)
-        {
-            UIGame.uiGame.DT.value -= 2;
-            Debug.Log("F");
-            Destroy(e.gameObject);
-        }
-        else
-        {
-            //score here
-        }
+        
     }
+   [PunRPC]
+    public void Shield_Active()
+    {
+        if (UIGame.uiGame.DT.value > 1)
+           gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 64f);
+    }
+    [PunRPC]
+    public void Shield_Deactive()
+    {
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting) { stream.SendNext(UIGame.uiGame.YOURS); }
+        else if (stream.IsReading) UIGame.uiGame.MINE = (int)stream.ReceiveNext();
+    }
+    //[PunRPC]
+    //public void ALL_SHIELD_DOWN()
+    //{
+    ////    posisi.position.Set(posisi.position.x, posisi.position.y, 0f);
+    //}
+
+
 }
