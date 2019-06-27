@@ -108,11 +108,4 @@ public class DetectBullet : MonoBehaviourPun, IPunObservable {
         if (stream.IsWriting) { stream.SendNext(UIGame.uiGame.YOURS); }
         else if (stream.IsReading) UIGame.uiGame.MINE = (int)stream.ReceiveNext();
     }
-    //[PunRPC]
-    //public void ALL_SHIELD_DOWN()
-    //{
-    ////    posisi.position.Set(posisi.position.x, posisi.position.y, 0f);
-    //}
-
-
 }

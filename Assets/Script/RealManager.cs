@@ -17,11 +17,13 @@ public class RealManager : MonoBehaviour {
         {
             SpawnPlayer(player1, "defend");
             UIGame.uiGame.ShieldMode.SetActive(true);
+            PlayServices.playServices.UnlockAchievement(GPGSIds.achievement_room_master);
         }
         else
         {
             SpawnPlayer(player2, "shoot");
             UIGame.uiGame.ShootMode.SetActive(true);
+            PlayServices.playServices.UnlockAchievement(GPGSIds.achievement_challenge_accepted);
             UIGame.uiGame.StartCOUNT = true;
         }
     }
